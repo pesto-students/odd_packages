@@ -96,19 +96,18 @@ const orderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
 /*
  * Get forum list
  */
-orderSchema.statics.getAllOrderList =  async (req) => {
+orderSchema.statics.getAllOrderList = async (req) => {
   let where = {},
     data = req.query,
     sortBy = {};
-  if(data.query) {
- 
-  }
-
-  if (data.status) {
+  if (data.status === "live") {
+    where.status = ["open", "accepted", "inprogress"];
+  } else if (data.status === "past") {
+    where.status = ["cancel", "delivered"];
+  } else if (data.status) {
     where.status = data.status;
   }
 
@@ -117,9 +116,14 @@ orderSchema.statics.getAllOrderList =  async (req) => {
   } else {
     sortBy.created_at = -1;
   }
-  return await Order.find().where(where).sort(sortBy)  
-  .skip(parseInt(req.query.skip || 0))
-  .limit(parseInt(req.query.limit|| 10)).lean();
+  return await Order.find(where)
+    .populate("user_id")
+    .populate({ path: "driver_id", select: { last_name: 1, first_name: 1 } })
+    .populate("vehicle_id")
+    .sort(sortBy)
+    .skip(parseInt(req.query.skip || 0))
+    .limit(parseInt(req.query.limit || 10))
+    .lean();
 };
 
 const Order = mongoose.model("Order", orderSchema);

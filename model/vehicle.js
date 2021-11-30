@@ -81,14 +81,14 @@ const Vehicle = mongoose.model("Vehicle", schema);
   Vehicle.insertMany([
     {
       name: "Two Wheeler",
-
+      image: "https://odd-pestp.s3.ap-south-1.amazonaws.com/two-wheel.svg",
       recommendation: "Recommended for Documents, Lunchbox etc.",
       base_fare: 100,
       per_km: 25,
     },
     {
       name: "Three Wheeler",
-
+      image: "https://odd-pestp.s3.ap-south-1.amazonaws.com/three-wheel.svg",
       recommendation:
         "Recommended for Large items like small Furniture, appliances etc.",
       base_fare: 100,
@@ -96,7 +96,7 @@ const Vehicle = mongoose.model("Vehicle", schema);
     },
     {
       name: "Mini truck",
-
+      image: "https://odd-pestp.s3.ap-south-1.amazonaws.com/four-wheel.svg",
       recommendation:
         "Recommended for Large items like small Furniture, appliances etc.",
       base_fare: 100,

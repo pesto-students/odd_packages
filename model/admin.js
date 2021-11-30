@@ -5,11 +5,11 @@ import bcrypt from "bcryptjs";
 import { config } from "../config";
 
 const adminSchema = new mongoose.Schema({
-  firstName: {
+  first_name: {
     type: String,
     trim: true,
   },
-  lastName: {
+  last_name: {
     type: String,
     trim: true,
   },
@@ -62,7 +62,7 @@ adminSchema.pre("save", async function (next) {
   next();
 });
 
-adminSchema.methods.generateAuthToken = async function() {
+adminSchema.methods.generateAuthToken = async function () {
   const admin = this;
   const token = jwt.sign(
     { _id: admin._id.toString(), role: "admin" },
@@ -77,7 +77,7 @@ adminSchema.methods.generateAuthToken = async function() {
 
 adminSchema.statics.findByCredentials = async (email, password) => {
   const admin = await Admin.findOne({ email });
- 
+
   if (!admin) {
     throw new Error("Invalid Credentials");
   }

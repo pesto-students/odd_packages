@@ -82,7 +82,8 @@ const driverSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    city: {
+    has_order: { type: Boolean, default: false },
+    city_postal_code: {
       type: String,
       default: "",
     },
@@ -102,6 +103,14 @@ const driverSchema = new mongoose.Schema(
     isOnline: {
       type: Boolean,
       default: false,
+    },
+    vehicle_number: {
+      type: String,
+    },
+    languages: {
+      type: String,
+      default: "English",
+      enum: ["English", "Hindi"],
     },
     location: {
       type: { type: String, default: "Point" },
@@ -152,22 +161,23 @@ driverSchema.methods.generateAuthToken = async function () {
 };
 
 driverSchema.statics.findByCredentials = async (mobile_number) => {
-  const driver = await DriverSchema.findOne({ mobile_number });
-  const otp = otpGenerator();
+  const driver = await Driver.findOne({ mobile_number });
+  // const otp = otpGenerator();
+  const otp = "0000";
 
   if (!driver) {
-    const Driver = new DriverSchema({ mobile_number, otp_verify: otp });
-    console.log(Driver);
-    let data = await Driver.save();
+    const newDriver = new Driver({ mobile_number, otp_verify: otp });
+    let data = await newDriver.save();
     return data;
   }
 
-  driver.otp_verify = otpGenerator();
+  // driver.otp_verify = otpGenerator();
+  driver.otp_verify = "0000";
   return await driver.save();
 };
 
 driverSchema.statics.userOtpVerify = async (id, otp) => {
-  const driver = await DriverSchema.findOne({ _id: id, otp_verify: otp });
+  const driver = await Driver.findOne({ _id: id, otp_verify: otp });
   if (!driver) {
     throw new Error("Invalid OTP");
   }
