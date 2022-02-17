@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const driver = new mongoose.Schema({
     total_distance_travel: {
-        type: number,
+        type: Number,
         default: 0
     },
     driver_id: {
@@ -10,15 +10,15 @@ const driver = new mongoose.Schema({
         ref: "Driver",
     },
     total_earning: {
-        type: number,
+        type: Number,
         default: 0
     },
     total_online_time: {
-        type: number,
+        type: Number,
         default: 0
     },
     number_of_trips: {
-        type: number,
+        type: Number,
         default: 0
     }
 });
