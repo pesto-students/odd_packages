@@ -24,6 +24,6 @@ const driver = new mongoose.Schema({
 });
 
 
-const DriverStatics = mongoose.model("Driver", driver);
+const DriverStatics = mongoose.model("DriverStats", driver);
 
 export default DriverStatics;
