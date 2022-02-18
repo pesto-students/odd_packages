@@ -3,6 +3,7 @@ import validator from "validator";
 import jwt from "jsonwebtoken";
 import { config } from "../config";
 import { otpGenerator } from "../helper";
+import { DriverStatics } from ".";
 
 const doc = new mongoose.Schema(
   {
@@ -167,6 +168,8 @@ driverSchema.statics.findByCredentials = async (mobile_number) => {
 
   if (!driver) {
     const newDriver = new Driver({ mobile_number, otp_verify: otp });
+    const stats = DriverStatics({ driver_id: newDriver._id });
+    stats.save();
     let data = await newDriver.save();
     return data;
   }
